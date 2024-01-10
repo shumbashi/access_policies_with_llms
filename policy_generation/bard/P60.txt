@@ -1,0 +1,33 @@
+# Define base object types
+object_type Project {
+  string id;
+  string classification; // "Highly Confidential"
+}
+
+object_type Subject {
+  string id;
+  string department;
+  string security_clearance;
+  string location;
+  string project_role;
+  string work_schedule;
+}
+
+# Define authorization policy
+authorization_policy AccessProject(Subject s, Project p) {
+  // Regular business hours check (replace with your specific definition)
+  time t = get_current_time();
+  bool is_business_hours = within_business_hours(t);
+
+  // Access criteria
+  s.department == "Research and Development" &
+  s.security_clearance == "Top Secret" &
+  s.location == "Secure Facility" &
+  s.project_role == "Lead Researcher" &
+  s.work_schedule == "Full-Time" &
+  p.classification == "Highly Confidential" &
+  is_business_hours;
+}
+
+# Example usage
+allow s1 to read Project "Project X" if AccessProject(s1, Project("Project X"));

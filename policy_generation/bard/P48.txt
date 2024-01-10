@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:spdl">
+  <xs:element name="subject" type="xs:string"/>
+  <xs:element name="target" type="xs:string"/>
+  <xs:element name="action" type="xs:string"/>
+  <xs:element name="condition" type="xs:string"/>
+  <xs:element name="authorization" type="xs:string"/>
+</xs:schema>
+
+<spdl:policy>
+  <spdl:policyType>AccessControl</spdl:policyType>
+  <spdl:subject>urn:user:$(employee)</spdl:subject>
+  <spdl:target>urn:resource:leaveRequest</spdl:target>
+  <spdl:action>Submit</spdl:action>
+  <spdl:authorization>Permit</spdl:authorization>
+</spdl:policy>
+
+<spdl:policy>
+  <spdl:policyType>MetaPolicy</spdl:policyType>
+  <spdl:subject>urn:user:$(employee)</spdl:subject>
+  <spdl:target>urn:resource:leaveRequest</spdl:target>
+  <spdl:action>Approve</spdl:action>
+  <spdl:condition>
+    <spdl:expression>(urn:attribute:leaveDuration &lt; 4)</spdl:expression>
+  </spdl:condition>
+  <spdl:authorization>Permit</spdl:authorization>
+  <spdl:subject>urn:user:$(directManager)</spdl:subject>
+</spdl:policy>
+
+<spdl:policy>
+  <spdl:policyType>MetaPolicy</spdl:policyType>
+  <spdl:subject>urn:user:$(employee)</spdl:subject>
+  <spdl:target>urn:resource:leaveRequest</spdl:target>
+  <spdl:action>Approve</spdl:action>
+  <spdl:condition>
+    <spdl:expression>(urn:attribute:leaveDuration &gt;= 4)</spdl:expression>
+  </spdl:condition>
+  <spdl:authorization>Permit</spdl:authorization>
+  <spdl:subject>urn:user:$(hrManager)</spdl:subject>
+</spdl:policy>
+
+<spdl:variable name="employee" type="xs:string"/>
+<spdl:variable name="directManager" type="xs:string"/>
+<spdl:variable name="hrManager" type="xs:string"/>

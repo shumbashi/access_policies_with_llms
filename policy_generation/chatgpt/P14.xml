@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Policy xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17" PolicyId="ConfidentialDocumentPolicy" RuleCombiningAlgId="urn:oasis:names:tc:xacml:3.0:rule-combining-algorithm:deny-overrides">
+    <Target>
+        <Subjects>
+            <AnySubject />
+        </Subjects>
+        <Resources>
+            <Resource>
+                <AttributeDesignator AttributeId="document-classification" DataType="string" Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource" MustBePresent="true" />
+            </Resource>
+        </Resources>
+        <Actions>
+            <Action />
+        </Actions>
+        <Environments />
+    </Target>
+
+    <Rule Effect="Permit" RuleId="AllowAccessToConfidentialDocuments">
+        <Target>
+            <Subjects>
+                <Subject>
+                    <AttributeDesignator AttributeId="security-clearance" DataType="string" Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject" MustBePresent="true" />
+                </Subject>
+            </Subjects>
+            <Resources>
+                <Resource>
+                    <AttributeDesignator AttributeId="document-classification" DataType="string" Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource" MustBePresent="true" />
+                </Resource>
+            </Resources>
+            <Actions>
+                <Action />
+            </Actions>
+            <Condition>
+                <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                    <AttributeValue DataType="string">Confidential</AttributeValue>
+                    <AttributeDesignator AttributeId="security-clearance" DataType="string" Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject" MustBePresent="true" />
+                </Apply>
+                <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-at-least-one-member-of">
+                    <AttributeValue DataType="string">Confidential</AttributeValue>
+                    <AttributeDesignator AttributeId="document-classification" DataType="string" Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource" MustBePresent="true" />
+                </Apply>
+            </Condition>
+        </Target>
+    </Rule>
+
+    <Rule Effect="Deny" RuleId="DenyAccessToOtherDocuments" />
+</Policy>

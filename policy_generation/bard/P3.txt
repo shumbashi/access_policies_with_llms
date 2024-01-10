@@ -1,0 +1,5 @@
+policy "All authenticated users can view public data"
+permit
+    action == "view"
+    subject.authenticated == true
+    resource.public == true

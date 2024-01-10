@@ -1,0 +1,40 @@
+namespace com.example.crm;
+
+// Define the entities
+entity User {
+    attributes {
+        department: string;
+    }
+}
+
+entity CRMRecord {
+    attributes {
+        lastModifiedBy: User;
+        lastModifiedTime: time;
+    }
+}
+
+// Define the policy
+policy SalesDepartmentAccessPolicy {
+    // Rule: Users from the Sales department can only edit CRM records during work hours (9 AM to 5 PM)
+    rule SalesEditPermission {
+        permit {
+            action: edit;
+            resource: CRMRecord;
+            condition: isSalesDepartmentUser() && isWorkHours();
+        }
+    }
+
+    // Helper function to check if the user belongs to the Sales department
+    function isSalesDepartmentUser() returns bool {
+        user.department == "Sales";
+    }
+
+    // Helper function to check if the current time is within work hours (9 AM to 5 PM)
+    function isWorkHours() returns bool {
+        let currentTime = now();
+        let workStartTime = time("09:00:00");
+        let workEndTime = time("17:00:00");
+        currentTime >= workStartTime && currentTime <= workEndTime;
+    }
+}

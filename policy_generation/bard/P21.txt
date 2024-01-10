@@ -1,0 +1,22 @@
+policy employee_records {
+    apply firstApplicable
+
+    // Rule for HR users with seniority < 3 years: view-only access
+    rule allow_view_for_junior_hr_users {
+        target clause actionId == "view"
+        condition clause department == "HR" && seniority < 3
+    }
+
+    // Rule for HR users with seniority >= 3 years: edit access (no delete)
+    rule allow_edit_for_senior_hr_users {
+        target clause actionId == "edit"
+        condition clause department == "HR" && seniority >= 3
+        obligation clause actionId != "delete"
+    }
+
+    // Deny all other access attempts
+    rule deny_all_other_access {
+        target clause true
+        condition clause false
+    }
+}

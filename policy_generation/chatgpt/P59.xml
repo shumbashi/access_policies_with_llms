@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Policy xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17" PolicyId="researchProjectPolicy" RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:permit-overrides">
+    <Target>
+        <Subjects>
+            <AnySubject/>
+        </Subjects>
+        <Resources>
+            <Resource>
+                <AnyResource/>
+            </Resource>
+        </Resources>
+        <Actions>
+            <Action>
+                <ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                    <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">access</AttributeValue>
+                    <ActionAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" DataType="http://www.w3.org/2001/XMLSchema#string"/>
+                </ActionMatch>
+            </Action>
+        </Actions>
+    </Target>
+    
+    <Rule RuleId="researchProjectRule" Effect="Permit">
+        <Target>
+            <Subjects>
+                <Subject>
+                    <AttributeDesignator AttributeId="Department" DataType="http://www.w3.org/2001/XMLSchema#string"/>
+                    <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Research and Development</AttributeValue>
+                </Subject>
+                <Subject>
+                    <AttributeDesignator AttributeId="SecurityClearance" DataType="http://www.w3.org/2001/XMLSchema#string"/>
+                    <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Top Secret</AttributeValue>
+                </Subject>
+                <Subject>
+                    <AttributeDesignator AttributeId="Location" DataType="http://www.w3.org/2001/XMLSchema#string"/>
+                    <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Secure Facility</AttributeValue>
+                </Subject>
+                <Subject>
+                    <AttributeDesignator AttributeId="ProjectRole" DataType="http://www.w3.org/2001/XMLSchema#string"/>
+                    <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Lead Researcher</AttributeValue>
+                </Subject>
+                <Subject>
+                    <AttributeDesignator AttributeId="WorkSchedule" DataType="http://www.w3.org/2001/XMLSchema#string"/>
+                    <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Full-Time</AttributeValue>
+                </Subject>
+            </Subjects>
+        </Target>
+    </Rule>
+</Policy>

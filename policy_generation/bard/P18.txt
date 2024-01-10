@@ -1,0 +1,12 @@
+policy "Confidential Document Access" {
+    apply to {
+        subject = "employee"
+        resource = "classified_document"
+        action = "read"
+    }
+
+    condition {
+        subject.securityClearance >= resource.classificationLevel
+        resource.classificationLevel <= "Confidential"
+    }
+}

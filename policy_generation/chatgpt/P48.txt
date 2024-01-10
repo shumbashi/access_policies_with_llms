@@ -1,0 +1,28 @@
+namespace CompanyLeavePolicy {
+
+  // Define roles
+  role Employee;
+  role DirectManager;
+  role HRManager;
+
+  // Define resources
+  resource LeaveRequest;
+
+  // Define conditions
+  condition LessThan4Days {
+    duration(LeaveRequest) < 4;
+  }
+
+  // Define rules
+  policy LeaveApprovalPolicy {
+    // All employees can submit leave requests
+    permit submit(LeaveRequest) for Employee;
+
+    // Direct managers can approve leave requests if the duration is less than 4 days
+    permit approve(LeaveRequest) for DirectManager if LessThan4Days;
+
+    // HR manager can approve leave requests regardless of duration
+    permit approve(LeaveRequest) for HRManager;
+  }
+
+}

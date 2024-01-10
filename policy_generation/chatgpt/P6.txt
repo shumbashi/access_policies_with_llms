@@ -1,0 +1,23 @@
+policy "PublicDataAccessPolicy"
+{
+    target clause
+    {
+        // Define the target entities or resources to which the policy applies
+        // In this case, it applies to public data
+        resource.type == "public_data"
+    }
+
+    apply clause
+    {
+        // Define the conditions under which the policy is applied
+        // All authenticated users can view public data
+        subject.authenticated == true
+    }
+
+    // Specify the permissions that are granted by the policy
+    permissions clause
+    {
+        // Grant read (view) access to authenticated users for public data
+        resource.operations == {"read"}
+    }
+}

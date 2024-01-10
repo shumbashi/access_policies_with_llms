@@ -1,0 +1,66 @@
+1
+
+2
++
+
+4
+
+5
++
+**```xml
+<Policy PolicyId="RND_SourceCodeAccess" RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:permit-overrides">
+<Target>
+<Subjects>
+<Subject>
+<Attribute AttributeId="urn:oasis:names:tc:xacml:1.0:subject:subject-category:access-subject" DataType="http://www.w3.org/2001/XMLSchema#string">
+<AttributeValue>user</AttributeValue>
+</Attribute>
+<Attribute AttributeId="urn:oasis:names:tc:xacml:1.0:subject:department" DataType="http://www.w3.org/2001/XMLSchema#string">
+<AttributeValue>Research and Development</AttributeValue>
+</Attribute>
+</Subject>
+</Subjects>
+<Resources>
+<Resource>
+<Attribute AttributeId="urn:oasis:names:tc:xacml:1.0:resource:resource-type" DataType="http://www.w3.org/2001/XMLSchema#string">
+<AttributeValue>sourcecode</AttributeValue>
+</Attribute>
+<Attribute AttributeId="urn:oasis:names:tc:xacml:1.0:resource:project-tag" DataType="http://www.w3.org/2001/XMLSchema#string">
+<AttributeValue>type=RND</AttributeValue>
+</Attribute>
+</Resource>
+</Resources>
+<Actions>
+<Action>
+<Attribute AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-type" DataType="http://www.w3.org/2001/XMLSchema#string">
+<AttributeValue>access</AttributeValue>
+</Attribute>
+<Attribute AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-type" DataType="http://www.w3.org/2001/XMLSchema#string">
+<AttributeValue>contribute</AttributeValue>
+</Attribute>
+</Action>
+</Actions>
+</Target>
+<Condition>
+<Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:time-in-range">
+<Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:time-one-and-only">
+<EnvironmentAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:environment:current-time" DataType="http://www.w3.org/2001/XMLSchema#time"/>
+</Apply>
+<Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:time-one-and-only">
+<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#time">09:00:00</AttributeValue>
+</Apply>
+<Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:time-one-and-only">
+<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#time">17:00:00</AttributeValue>
+</Apply>
+</Apply>
+</Condition>
+<Condition>
+<Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:dayTime-in-range">
+<Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:dayTime-one-and-only">
+<EnvironmentAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:environment:current-dateTime" DataType="http://www.w3.org/2001/XMLSchema#dateTime"/>
+</Apply>
+<Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:dayTime-one-and-only">
+<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#time">2001-01-01T09:00:00</AttributeValue>
+</Apply>
+<Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function
+

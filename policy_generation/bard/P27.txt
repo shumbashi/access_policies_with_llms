@@ -1,0 +1,6 @@
+policy "Sales Department CRM Editing"
+permit
+    action == "edit"
+    and resource.type == "CRMRecord"
+    and subject.department == "Sales"
+    and time.hour >= 9 and time.hour < 17  // Enforce work hours (9 AM to 5 PM)

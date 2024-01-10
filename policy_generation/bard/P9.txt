@@ -1,0 +1,7 @@
+policy "allow_marketing_users_to_edit_marketing_docs"
+    permit
+        action = "edit"
+        where
+            subject.department = "Marketing" AND
+            resource.type = "Document" AND
+            resource.category = "Marketing"

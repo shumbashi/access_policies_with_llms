@@ -1,0 +1,18 @@
+namespace = "example.com/marketing_policy"
+
+policy editMarketingDocuments {
+    target clause {
+        subject.department == "Marketing"
+    }
+
+    apply firstApplicable {
+        permit {
+            action == "edit"
+            resource.type == "document"
+            resource.department == "Marketing"
+        }
+        deny {
+            action == "edit"
+        }
+    }
+}

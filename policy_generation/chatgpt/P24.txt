@@ -1,0 +1,22 @@
+namespace HR_Policies {
+  policy HR_Employee_Record_Access {
+    target: employee_record
+    apply first_applicable;
+
+    rule view_only_for_junior {
+      condition: 
+        user.department == "HR" &&
+        user.seniority < 3
+      action: 
+        permit:view, deny:edit, deny:delete;
+    }
+
+    rule edit_for_senior {
+      condition: 
+        user.department == "HR" &&
+        user.seniority >= 3
+      action: 
+        permit:view, permit:edit, deny:delete;
+    }
+  }
+}

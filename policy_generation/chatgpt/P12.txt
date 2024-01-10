@@ -1,0 +1,16 @@
+policy MarketingDocumentAccessControl {
+  target:
+    // Define the target resources (marketing documents)
+    resource.type == "document" &&
+    resource.department == "Marketing" &&
+    action == "edit";
+
+  rules:
+    // Allow access if the user belongs to the 'Marketing' department
+    permit:
+      user.department == "Marketing";
+      
+    // Deny access for all other cases
+    deny:
+      true;
+}

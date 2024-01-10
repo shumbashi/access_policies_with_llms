@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<spdl:Policy xmlns:spdl="urn:oasis:names:tc:xacml:3.0:policy:schema:os" spdlVersion="3.0" PolicyId="BudgetApprovalPolicy">
+  <spdl:Target>
+    <spdl:Subject>
+      <spdl:AttributeDesignator AttributeId="department" DataType="http://www.w3.org/2001/XMLSchema#string"/>
+    </spdl:Subject>
+    <spdl:Resource>
+      <spdl:AttributeDesignator AttributeId="budgetRequestAmount" DataType="http://www.w3.org/2001/XMLSchema#decimal"/>
+    </spdl:Resource>
+    <spdl:Action>
+      <spdl:Value>approve</spdl:Value>
+    </spdl:Action>
+  </spdl:Target>
+  <spdl:Rule RuleId="FinanceApprovalRule">
+    <spdl:SubjectMatch Function="string-equal">
+      <spdl:AttributeValue AttributeId="department">Finance</spdl:AttributeValue>
+    </spdl:SubjectMatch>
+    <spdl:Condition>
+      <spdl:SimpleExpression Function="less-than">
+        <spdl:OperandRef AttributeId="budgetRequestAmount"/>
+        <spdl:Literal ExpressionId="limit">100000</spdl:Literal>
+      </spdl:SimpleExpression>
+    </spdl:Condition>
+    <spdl:Effect Permit/>
+  </spdl:Rule>
+</spdl:Policy>

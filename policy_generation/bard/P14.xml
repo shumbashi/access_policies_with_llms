@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Policy xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17"
+        PolicyId="ConfidentialDocumentAccessPolicy"
+        RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:first-applicable">
+    <Description>Employees with a security clearance level of 'Confidential' can access classified documents of level 'Confidential' or lower</Description>
+    <Target>
+        <AnyOf>
+            <AllOf>
+                <Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                    <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">read</AttributeValue>
+                    <AttributeDesignator MustBePresent="true"
+                                       Category="urn:oasis:names:tc:xacml:3.0:attribute-category:action"
+                                       AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id"
+                                       DataType="http://www.w3.org/2001/XMLSchema#string"/>
+                </Match>
+            </AllOf>
+        </AnyOf>
+    </Target>
+    <Rule RuleId="AllowAccessIfClearanceMatchesOrExceedsDocumentLevel">
+        <Description>Allow access if employee clearance level is 'Confidential' or higher, and document level is 'Confidential' or lower</Description>
+        <Condition>
+            <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:any-of">
+                <Function FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-equal"/>
+                <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Confidential</AttributeValue>
+                <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-one-and-only">
+                    <AttributeDesignator MustBePresent="true"
+                                       Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
+                                       AttributeId="security-clearance"
+                                       DataType="http://www.w3.org/2001/XMLSchema#string"/>
+                </Apply>
+                <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Top Secret</AttributeValue>
+                <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Secret</AttributeValue>
+            </Apply>
+            <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-is-in">
+                <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Confidential</AttributeValue>
+                <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-bag">
+                    <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Unclassified</AttributeValue>
+                    <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Confidential</AttributeValue>
+                </Apply>
+            </Apply>
+        </Condition>
+        <Effect>Permit</Effect>
+    </Rule>
+    <Rule RuleId="DenyAccessByDefault">
+        <Description>Deny access by default</Description>
+        <Effect>Deny</Effect>
+    </Rule>
+</Policy>

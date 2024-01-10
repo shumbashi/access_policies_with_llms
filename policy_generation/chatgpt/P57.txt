@@ -1,0 +1,32 @@
+Policy "ConfidentialResearchAccessPolicy" {
+    Target {
+        Resources: "HighlyConfidentialResearchProjects"
+        Actions: "Access"
+        Conditions: {
+            Condition "DepartmentCondition" {
+                Expression: "employee.Department == 'Research and Development'"
+            }
+            Condition "ClearanceCondition" {
+                Expression: "employee.SecurityClearance == 'Top Secret'"
+            }
+            Condition "LocationCondition" {
+                Expression: "employee.Location == 'Secure Facility'"
+            }
+            Condition "RoleCondition" {
+                Expression: "employee.ProjectRole == 'Lead Researcher'"
+            }
+            Condition "ScheduleCondition" {
+                Expression: "employee.WorkSchedule == 'Full-Time'"
+            }
+            Condition "BusinessHoursCondition" {
+                Expression: "currentTime >= '08:00:00' && currentTime <= '17:00:00'"
+            }
+        }
+    }
+    Rule "GrantAccessRule" {
+        Effect: Permit
+    }
+    Rule "DenyAccessRule" {
+        Effect: Deny
+    }
+}

@@ -1,0 +1,12 @@
+policy "RnD_SourceCodeAccessPolicy" {
+    rule "SourceCodeAccessRule" {
+        permit
+        if {
+            user.department == "Research and Development" &&
+            resource.type == "source_code_repository" &&
+            project.tag.type == "RND" &&
+            current_time >= 9:00 AM && current_time <= 5:00 PM &&
+            current_day in {Monday, Tuesday, Wednesday, Thursday, Friday}
+        };
+    }
+}

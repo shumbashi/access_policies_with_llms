@@ -1,0 +1,38 @@
+<PolicySet xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17" 
+           PolicyCombiningAlgId="urn:oasis:names:tc:xacml:1.0:policy-combining-algorithm:permit-overrides">
+  <Target>
+    <Subjects>
+      <AnySubject/>
+    </Subjects>
+    <Resources>
+      <AnyResource/>
+    </Resources>
+    <Actions>
+      <Action>
+        <ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+          <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">edit</AttributeValue>
+          <ActionAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" 
+                                     DataType="http://www.w3.org/2001/XMLSchema#string"/>
+        </ActionMatch>
+      </Action>
+    </Actions>
+  </Target>
+  <Rule RuleId="Marketing_Document_Edit_Rule" Effect="Permit">
+    <Condition>
+      <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:and">
+        <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+          <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Marketing</AttributeValue>
+          <AttributeDesignator AttributeId="department" 
+                               DataType="http://www.w3.org/2001/XMLSchema#string"
+                               SubjectCategory="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"/>
+        </Apply>
+        <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+          <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">marketing</AttributeValue>
+          <AttributeDesignator AttributeId="resource-type" 
+                               DataType="http://www.w3.org/2001/XMLSchema#string"
+                               ResourceCategory="urn:oasis:names:tc:xacml:3.0:attribute-category:resource"/>
+        </Apply>
+      </Apply>
+    </Condition>
+  </Rule>
+</PolicySet>

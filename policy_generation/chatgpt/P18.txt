@@ -1,0 +1,6 @@
+POLICY EmployeeAccessControl {
+  TARGET:
+    SUBJECT role == "Employee" AND clearance_level == "Confidential"
+  RULE:
+    ALLOW ACCESS TO resource_level <= "Confidential"
+}

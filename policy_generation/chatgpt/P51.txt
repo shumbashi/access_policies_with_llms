@@ -1,0 +1,17 @@
+namespace org.example
+
+policy ProjectAccessPolicy {
+  /**
+   * Rule 1: Users from the 'Research and Development' department can access
+   * source code repositories and contribute to projects if the project has the
+   * tag type=RND and only during working hours from 9 AM to 5 PM on days Monday to Friday.
+   */
+  permit {
+    operation = "access";
+    resource.type = "source_code_repository";
+    user.department = "Research and Development";
+    project.tag["type"] = "RND";
+    timeOfDay.between("09:00:00", "17:00:00");
+    dayOfWeek.in("Monday", "Tuesday", "Wednesday", "Thursday", "Friday");
+  }
+}

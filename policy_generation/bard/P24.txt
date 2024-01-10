@@ -1,0 +1,19 @@
+policy HR_Employee_Records {
+  target clause resource == "employee_records" && action in ["view", "edit", "delete"];
+
+  apply firstApplicable
+
+  rule allow_view_for_junior_hr {
+    condition user.department == "HR" && user.seniority < 3;
+    permit action == "view";
+  }
+
+  rule allow_edit_for_senior_hr {
+    condition user.department == "HR" && user.seniority >= 3;
+    permit action == "edit";
+  }
+
+  rule deny_all {
+    deny;
+  }
+}

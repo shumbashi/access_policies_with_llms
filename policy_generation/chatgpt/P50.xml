@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Policy xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17" PolicyId="RnDSourceCodePolicy" RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:first-applicable">
+    <Target>
+        <Subjects>
+            <SubjectMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Research and Development</AttributeValue>
+                <SubjectAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:subject:subject-id" DataType="http://www.w3.org/2001/XMLSchema#string" Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject" />
+            </SubjectMatch>
+        </Subjects>
+        <Resources>
+            <ResourceMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">RND</AttributeValue>
+                <ResourceAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:resource:resource-type" DataType="http://www.w3.org/2001/XMLSchema#string" />
+            </ResourceMatch>
+        </Resources>
+        <Environments>
+            <EnvironmentMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:and">
+                <Function FunctionId="urn:oasis:names:tc:xacml:1.0:function:time-greater-than-or-equal">
+                    <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#time">09:00:00</AttributeValue>
+                    <EnvironmentAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:environment:current-time" DataType="http://www.w3.org/2001/XMLSchema#time" />
+                </Function>
+                <Function FunctionId="urn:oasis:names:tc:xacml:1.0:function:time-less-than-or-equal">
+                    <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#time">17:00:00</AttributeValue>
+                    <EnvironmentAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:environment:current-time" DataType="http://www.w3.org/2001/XMLSchema#time" />
+                </Function>
+                <Function FunctionId="urn:oasis:names:tc:xacml:1.0:function:any-of-day">
+                    <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Monday,Tuesday,Wednesday,Thursday,Friday</AttributeValue>
+                    <EnvironmentAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:environment:current-day" DataType="http://www.w3.org/2001/XMLSchema#string" />
+                </Function>
+            </EnvironmentMatch>
+        </Environments>
+    </Target>
+    <Rule RuleId="AllowAccessRule" Effect="Permit">
+        <Condition>
+            <Function FunctionId="urn:oasis:names:tc:xacml:1.0:function:boolean-and">
+                <Function FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                    <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">contribute</AttributeValue>
+                    <ActionAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" DataType="http://www.w3.org/2001/XMLSchema#string" />
+                </Function>
+            </Function>
+        </Condition>
+    </Rule>
+    <Rule RuleId="DenyAccessRule" Effect="Deny"/>
+</Policy>

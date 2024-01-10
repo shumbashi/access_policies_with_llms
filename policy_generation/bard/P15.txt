@@ -1,0 +1,6 @@
+policy allow_access_confidential_documents {
+    apply firstApplicable
+    target clause actionId == "access" and resourceType == "Document"
+    condition clause 
+        (subject.securityClearance == "Confidential" and resource.classification <= "Confidential")
+}

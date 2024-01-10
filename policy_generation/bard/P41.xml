@@ -1,0 +1,55 @@
+<Policy xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17" 
+         PolicyId="ExecutiveDocumentAccessPolicy"
+         RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:first-applicable">
+  <Description>Policy for accessing executive-level documents</Description>
+  <Target>
+    <AnyOf>
+      <AllOf>
+        <Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+          <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Executive</AttributeValue>
+          <AttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:subject:subject-category:access-subject"
+                               DataType="http://www.w3.org/2001/XMLSchema#string"
+                               MustBePresent="true"/>
+        </Match>
+        <Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+          <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">executive</AttributeValue>
+          <AttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:resource:resource-id"
+                               DataType="http://www.w3.org/2001/XMLSchema#string"
+                               MustBePresent="true"/>
+        </Match>
+      </AllOf>
+    </AnyOf>
+  </Target>
+  <Rule RuleId="Rule1">
+    <Description>Allow access if conditions are met</Description>
+    <Target>
+      <AnyOf>
+        <AllOf>
+          <Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-is-in">
+            <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">US, Canada, France, Italy</AttributeValue>
+            <AttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:subject:subject-location"
+                               DataType="http://www.w3.org/2001/XMLSchema#string"
+                               MustBePresent="true"/>
+          </Match>
+          <Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+            <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">true</AttributeValue>
+            <AttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:subject:is-device-trusted"
+                               DataType="http://www.w3.org/2001/XMLSchema#boolean"
+                               MustBePresent="true"/>
+          </Match>
+        </AllOf>
+      </AnyOf>
+    </Target>
+    <Condition>
+      <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:any-of">
+      </Apply>
+    </Condition>
+    <Permit/>
+  </Rule>
+  <Rule RuleId="Rule2">
+    <Description>Deny access if conditions are not met</Description>
+    <Target/>
+    <Condition/>
+    <Deny/>
+  </Rule>
+</Policy>

@@ -1,0 +1,73 @@
+{
+  "user": {
+    "id": 1,
+    "name": "John Doe",
+    "email": "john@doe.ly",
+    "department": "Finance",
+    "authenticated": true,
+    "isAuthenticated": true,
+    "seniority": 4,
+    "attributes": {
+      "SeniorityLevel": "Executive",
+      "Location": "Canada",
+      "Device": "Trusted"
+    },
+    "location": "LY",
+    "device": {
+      "isTrusted": true
+    }
+  },
+  "resource": {
+    "id": 1,
+    "name": "Resource Name",
+    "description": "Resource Description",
+    "type": "executive-document",
+    "department": "Finance",
+    "classification": "Confidential",
+    "duration": 5,
+    "status": "pending",
+    "requester_manager": 1
+  },
+  "subject": {
+    "id": 1,
+    "name": "John Doe",
+    "email": "",
+    "clearance_level": "Confidential",
+    "role": "manager"
+  },
+  "action": "submit_leave_request",
+  "role": "Finance",
+  "request_amount": 1000,
+  "document": {
+    "level": "Executive"
+  },
+  "employee": "hr_manager",
+  "duration": 3,
+  "data": {
+    "visibility": "public"
+  },
+  "documents": {
+    "id": 1,
+    "name": "Document Name",
+    "description": "Document Description",
+    "type": "marketing",
+    "department": "Marketing",
+    "classification": "Confidential",
+    "duration": 5,
+    "status": "pending",
+    "requester_manager": 1
+  },
+  "budget_limits": {
+    "John Doe": 2000
+  },
+  "employees": [
+    {
+      "id": 1,
+      "name": "John Doe",
+      "email": "",
+      "roles": [
+        "employee"
+      ]
+    }
+  ]
+}

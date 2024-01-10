@@ -1,0 +1,17 @@
+policy "ExecutiveDocumentAccessPolicy" {
+  target clause {
+    user.attribute["Seniority Level"] == "Executive" &&
+    (user.attribute["Location"] == "US" ||
+     user.attribute["Location"] == "Canada" ||
+     user.attribute["Location"] == "France" ||
+     user.attribute["Location"] == "Italy") &&
+    user.device.trusted == true
+  }
+
+  apply firstApplicable;
+
+  rule "AllowAccessToExecutiveDocuments" {
+    permit;
+    on "AccessExecutiveDocuments";
+  }
+}

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Policy xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17" 
+         PolicyId="ExecutiveDocumentAccessPolicy"
+         RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:first-applicable">
+  <Description>Policy for accessing executive-level documents</Description>
+  <Target>
+    <AnyOf>
+      <AllOf>
+        <Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+          <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Executive</AttributeValue>
+          <AttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:subject:subject-category:access-subject"
+                              Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
+                              DataType="http://www.w3.org/2001/XMLSchema#string"
+                              MustBePresent="true"/>
+        </Match>
+        <Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+          <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Executive</AttributeValue>
+          <AttributeDesignator AttributeId="Seniority Level"
+                              Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
+                              DataType="http://www.w3.org/2001/XMLSchema#string"
+                              MustBePresent="true"/>
+        </Match>
+      </AllOf>
+      <AllOf>
+        <Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+          <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Executive</AttributeValue>
+          <AttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:resource:resource-category:resource-id"
+                              Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource"
+                              DataType="http://www.w3.org/2001/XMLSchema#string"
+                              MustBePresent="true"/>
+        </Match>
+      </AllOf>
+    </AnyOf>
+  </Target>
+  <Rule RuleId="AllowAccessIfExecutiveInPermittedLocationAndTrustedDevice">
+    <Description>Allow access if user is an Executive, in a permitted location, and using a trusted device</Description>
+    <Target>
+      <AnyOf>
+        <AllOf>
+          <Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+            <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">read</AttributeValue>
+            <AttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id"
+                                Category="urn:oasis:names:tc:xacml:3.0:attribute-category:action"
+                                DataType="http://www.w3.org/2001/XMLSchema#string"
+                                MustBePresent="true"/>
+          </Match>
+        </AllOf>
+      </AnyOf>
+    </Target>
+    <Condition>
+      <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:and">
+        <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-at-least-one-member-of">
+          <AttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:environment:environment-id"
+                              Category="urn:oasis:names:tc:xacml:3.0:attribute-category:environment"
+                              DataType="http://www.w3.org/2001/XMLSchema#string"
+                              MustBePresent="true"/>
+          <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#

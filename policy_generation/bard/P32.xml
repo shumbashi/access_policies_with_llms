@@ -1,0 +1,63 @@
+<Policy xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17" 
+         PolicyId="FinanceBudgetApprovalPolicy"
+         RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:first-applicable">
+  <Description>Employees in the Finance department can approve budget requests within a specified limit.</Description>
+  <Target>
+    <AnyOf>
+      <AllOf>
+        <Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+          <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">approve</AttributeValue>
+          <AttributeDesignator 
+            AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" 
+            DataType="http://www.w3.org/2001/XMLSchema#string" 
+            Category="urn:oasis:names:tc:xacml:3.0:attribute-category:action"/>
+        </Match>
+        <Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+          <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">budget-request</AttributeValue>
+          <AttributeDesignator 
+            AttributeId="urn:oasis:names:tc:xacml:1.0:resource:resource-id" 
+            DataType="http://www.w3.org/2001/XMLSchema#string" 
+            Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource"/>
+        </Match>
+      </AllOf>
+    </AnyOf>
+  </Target>
+  <Rule RuleId="AllowFinanceEmployeesWithinLimit">
+    <Description>Allow approval if employee is in Finance and request is below limit.</Description>
+    <Target>
+      <AnyOf>
+        <AllOf>
+          <Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+            <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Finance</AttributeValue>
+            <AttributeDesignator 
+              AttributeId="urn:example:com:department" 
+              DataType="http://www.w3.org/2001/XMLSchema#string" 
+              Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"/>
+          </Match>
+          <Match MatchId="urn:oasis:names:tc:xacml:1.0:function:integer-less-than-or-equal">
+            <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#integer">5000</AttributeValue>  <AttributeDesignator 
+              AttributeId="urn:example:com:budget-amount" 
+              DataType="http://www.w3.org/2001/XMLSchema#integer" 
+              Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource"/>
+          </Match>
+        </AllOf>
+      </AnyOf>
+    </Target>
+    <Condition>
+      <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-at-least-one-member-of">
+        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">approve</AttributeValue>
+        <AttributeDesignator 
+          AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" 
+          DataType="http://www.w3.org/2001/XMLSchema#string" 
+          Category="urn:oasis:names:tc:xacml:3.0:attribute-category:action"/>
+      </Apply>
+    </Condition>
+    <Permit/>
+  </Rule>
+  <Rule RuleId="DenyAllOthers">
+    <Description>Deny all other requests.</Description>
+    <Target/>
+    <Condition/>
+    <Deny/>
+  </Rule>
+</Policy>

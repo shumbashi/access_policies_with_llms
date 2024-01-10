@@ -1,0 +1,16 @@
+policy executive_document_access {
+  target clause object == "executive-level-document" && action == "read";
+  apply firstApplicable
+    (permitted_locations && trusted_device) ||
+    (default deny);
+
+  rule permitted_locations {
+    condition user.SeniorityLevel == "Executive" && 
+             (user.Location == "US" || user.Location == "Canada" ||
+              user.Location == "France" || user.Location == "Italy");
+  }
+
+  rule trusted_device {
+    condition device.isTrusted == true;
+  }
+}

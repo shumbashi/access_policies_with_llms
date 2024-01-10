@@ -1,0 +1,11 @@
+namespace = "http://example.com/policies"
+
+policy financeApprovalPolicy {
+    target clause actionId == "approve" 
+    and resource.department == "Finance"
+    and resource.budgetAmount <= subject.approvalLimit
+
+    apply firstApplicable
+
+    permit
+}

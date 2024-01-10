@@ -1,0 +1,42 @@
+{
+  "user": {
+    "id": 1,
+    "name": "John Doe",
+    "email": "john@doe.ly",
+    "department": "HR",
+    "authenticated": true,
+    "seniority": 4,
+    "attributes": {
+      "Seniority Level": "Executive",
+      "Location": "Canada",
+      "Device": "Trusted"
+    }
+  },
+  "resource": {
+    "id": 1,
+    "name": "Resource Name",
+    "description": "Resource Description",
+    "type": "leave",
+    "department": "MarketingHR",
+    "classification": "Confidential",
+    "duration": 5,
+    "status": "pending",
+    "requester_manager": 1
+
+  },
+  "subject": {
+    "id": 1,
+    "name": "John Doe",
+    "email": "",
+    "clearance_level": "Confidential",
+    "role": "manager"
+  },
+  "action": "approve",
+  "role": "Finance",
+  "request_amount": 1000,
+  "document": {
+    "level": "Executive"
+  },
+  "employee": "hr_manager",
+  "duration": 3
+}

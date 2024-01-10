@@ -1,0 +1,13 @@
+policy FinanceBudgetApproval {
+    target:
+        resource.type == "budget_request" &&
+        user.department == "Finance" &&
+        action == "approve" &&
+        budget_request.amount <= user.budget_limit
+
+    apply firstApplicable;
+
+    rule AllowBudgetApproval {
+        permit
+    }
+}

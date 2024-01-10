@@ -1,0 +1,34 @@
+policyset {
+    // Define the policy for accessing public data
+    policy "PublicDataAccessPolicy" {
+        
+        // Rule 1: Allow access to public data for authenticated users
+        rule "AllowAuthenticatedUsersAccess" {
+            target clause user.authenticated == true
+            apply firstApplicable
+            permit
+        }
+
+        // Rule 2: Deny access to public data for unauthenticated users
+        rule "DenyUnauthenticatedUsersAccess" {
+            target clause user.authenticated == false
+            apply firstApplicable
+            deny
+        }
+
+        // Rule 3: Allow access to public data for specific roles if needed
+        // Add additional rules here based on your specific requirements
+        
+    }
+
+    // Define attributes for users
+    attribute user {
+        authenticated: boolean
+        // Add other user attributes if needed
+    }
+
+    // Define attributes for resources
+    attribute resource {
+        // Add resource attributes if needed
+    }
+}

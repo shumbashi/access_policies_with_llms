@@ -1,0 +1,41 @@
+<Policy xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17" 
+         PolicyId="AllowPublicDataAccessForAuthenticatedUsersPolicy" 
+         Version="1.0">
+  <Target>
+    <AnyOf>
+      <AllOf>
+        <Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+          <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">view</AttributeValue>
+          <AttributeDesignator 
+            AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" 
+            DataType="http://www.w3.org/2001/XMLSchema#string" 
+            Category="urn:oasis:names:tc:xacml:3.0:attribute-category:action"/>
+        </Match>
+      </AllOf>
+    </AnyOf>
+  </Target>
+  <Rule RuleId="AllowAccessToPublicData" Effect="Permit">
+    <Target>
+      <AnyOf>
+        <AllOf>
+          <Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+            <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">public</AttributeValue>
+            <AttributeDesignator 
+              AttributeId="urn:oasis:names:tc:xacml:3.0:attribute-category:resource-category" 
+              DataType="http://www.w3.org/2001/XMLSchema#string" 
+              Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource"/>
+          </Match>
+        </AllOf>
+      </AnyOf>
+    </Target>
+    <Condition>
+      <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-is-in">
+        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">authenticated</AttributeValue>
+        <AttributeDesignator 
+          AttributeId="urn:oasis:names:tc:xacml:1.0:subject:subject-category:access-subject" 
+          DataType="http://www.w3.org/2001/XMLSchema#string" 
+          Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"/>
+      </Apply>
+    </Condition>
+  </Rule>
+</Policy>

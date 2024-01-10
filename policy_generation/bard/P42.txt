@@ -1,0 +1,15 @@
+<Policy>
+  <Subject>
+    <Attribute Name="Seniority Level">Executive</Attribute>
+    <Attribute Name="Location">
+      <ValueSet>US, Canada, France, Italy</ValueSet>
+    </Attribute>
+    <Attribute Name="Device Trust Status">Trusted</Attribute>
+  </Subject>
+  <Target>
+    <Resource>
+      <Attribute Name="Document Classification">Executive</Attribute>
+    </Resource>
+  </Target>
+  <Action>Access</Action>
+</Policy>

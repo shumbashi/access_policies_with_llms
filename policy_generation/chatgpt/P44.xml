@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Policy xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17" PolicyId="LeaveRequestPolicy" RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:first-applicable">
+    <Target>
+        <Subjects>
+            <AnySubject/>
+        </Subjects>
+        <Resources>
+            <Resource>
+                <ResourceMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                    <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">leaveRequest</AttributeValue>
+                    <ResourceAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:resource:resource-id" DataType="http://www.w3.org/2001/XMLSchema#string"/>
+                </ResourceMatch>
+            </Resource>
+        </Resources>
+        <Actions>
+            <Action>
+                <ActionMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                    <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">submit</AttributeValue>
+                    <ActionAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" DataType="http://www.w3.org/2001/XMLSchema#string"/>
+                </ActionMatch>
+            </Action>
+        </Actions>
+    </Target>
+
+    <!-- Rule for Direct Managers -->
+    <Rule RuleId="DirectManagerRule" Effect="Permit">
+        <Target>
+            <Subjects>
+                <Subject>
+                    <SubjectMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">directManager</AttributeValue>
+                        <SubjectAttributeDesignator AttributeId="role" DataType="http://www.w3.org/2001/XMLSchema#string"/>
+                    </SubjectMatch>
+                </Subject>
+            </Subjects>
+            <Environments>
+                <Environment>
+                    <EnvironmentMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:boolean-one-and-only">
+                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#boolean">true</AttributeValue>
+                        <EnvironmentAttributeDesignator AttributeId="isLeaveRequest" DataType="http://www.w3.org/2001/XMLSchema#boolean"/>
+                    </EnvironmentMatch>
+                </Environment>
+                <Environment>
+                    <EnvironmentMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:integer-greater-than">
+                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#integer">4</AttributeValue>
+                        <EnvironmentAttributeDesignator AttributeId="leaveDuration" DataType="http://www.w3.org/2001/XMLSchema#integer"/>
+                    </EnvironmentMatch>
+                </Environment>
+            </Environments>
+        </Target>
+    </Rule>
+
+    <!-- Rule for HR Manager -->
+    <Rule RuleId="HRManagerRule" Effect="Permit">
+        <Target>
+            <Subjects>
+                <Subject>
+                    <SubjectMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">hrManager</AttributeValue>
+                        <SubjectAttributeDesignator AttributeId="role" DataType="http://www.w3.org/2001/XMLSchema#string"/>
+                    </SubjectMatch>
+                </Subject>
+            </Subjects>
+            <Environments>
+                <Environment>
+                    <EnvironmentMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:boolean-one-and-only">
+                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#boolean">true</AttributeValue>
+                        <EnvironmentAttributeDesignator AttributeId="isLeaveRequest" DataType="http://www.w3.org/2001/XMLSchema#boolean"/>
+                    </EnvironmentMatch>
+                </Environment>
+                <Environment>
+                    <EnvironmentMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:integer-greater-than-or-equal">
+                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#integer">4</AttributeValue>
+                        <EnvironmentAttributeDesignator AttributeId="leaveDuration" DataType="http://www.w3.org/2001/XMLSchema#integer"/>
+                    </EnvironmentMatch>
+                </Environment>
+            </Environments>
+        </Target>
+    </Rule>
+
+    <!-- Default Deny Rule -->
+    <Rule RuleId="DenyRule" Effect="Deny"/>
+</Policy>

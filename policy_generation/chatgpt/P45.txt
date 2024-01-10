@@ -1,0 +1,32 @@
+policy LeaveRequestApproval {
+    target clause {
+        action.id == "submit_leave_request"
+    }
+
+    apply firstApplicable;
+
+    rule AllEmployeesCanSubmit {
+        condition {
+            subject.role == "employee"
+        }
+        permit
+    }
+
+    rule DirectManagersCanApproveShortLeave {
+        condition {
+            subject.role == "manager" &&
+            resource.leave_duration <= 4
+        }
+        permit
+    }
+
+    rule HRManagerCanApproveAllLeaves {
+        condition {
+            subject.role == "hr_manager"
+        }
+        permit
+    }
+
+    // Deny by default if no rules match
+    deny
+}

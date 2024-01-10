@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Policy xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17"
+        PolicyId="urn:example:policy:1"
+        RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:first-applicable">
+
+    <!-- Rule for allowing access to source code repositories -->
+    <Rule Effect="Permit" RuleId="allowSourceCodeAccessRule">
+        <Target>
+            <Subjects>
+                <Subject>
+                    <SubjectMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Research and Development</AttributeValue>
+                        <SubjectAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:subject:subject-id"
+                                                   DataType="http://www.w3.org/2001/XMLSchema#string"/>
+                    </SubjectMatch>
+                </Subject>
+            </Subjects>
+            <Resources>
+                <Resource>
+                    <ResourceMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">RND</AttributeValue>
+                        <ResourceAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:resource:resource-type"
+                                                    DataType="http://www.w3.org/2001/XMLSchema#string"/>
+                    </ResourceMatch>
+                </Resource>
+            </Resources>
+            <Environments>
+                <Environment>
+                    <EnvironmentMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:time-in-range">
+                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#time">09:00:00</AttributeValue>
+                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#time">17:00:00</AttributeValue>
+                        <EnvironmentAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:environment:current-time"
+                                                       DataType="http://www.w3.org/2001/XMLSchema#time"/>
+                    </EnvironmentMatch>
+                </Environment>
+                <Environment>
+                    <EnvironmentMatch MatchId="urn:oasis:names:tc:xacml:1.0:function:day-of-week">
+                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Monday</AttributeValue>
+                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Friday</AttributeValue>
+                        <EnvironmentAttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:environment:current-day-of-week"
+                                                       DataType="http://www.w3.org/2001/XMLSchema#string"/>
+                    </EnvironmentMatch>
+                </Environment>
+            </Environments>
+        </Target>
+    </Rule>
+
+    <!-- Default deny rule -->
+    <Rule Effect="Deny" RuleId="denyRule"/>
+
+</Policy>

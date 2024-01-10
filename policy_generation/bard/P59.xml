@@ -1,0 +1,23 @@
+<Policy PolicyId="HighlyConfidentialResearchAccess" RuleCombiningAlgId="DenyUnlessPermit">
+  <Target>
+    <AnyOf>
+      <SubjectAttributeDesignator AttributeId="Department" DataType="http://www.w3.org/2001/XMLSchema-instance:string" MatchId="equal"/>
+      <SubjectAttributeDesignator AttributeId="SecurityClearance" DataType="http://www.w3.org/2001/XMLSchema-instance:string" MatchId="equal"/>
+      <SubjectAttributeDesignator AttributeId="Location" DataType="http://www.w3.org/2001/XMLSchema-instance:string" MatchId="equal"/>
+      <SubjectAttributeDesignator AttributeId="ProjectRole" DataType="http://www.w3.org/2001/XMLSchema-instance:string" MatchId="equal"/>
+      <SubjectAttributeDesignator AttributeId="WorkSchedule" DataType="http://www.w3.org/2001/XMLSchema-instance:string" MatchId="equal"/>
+    </AnyOf>
+  </Target>
+  <Condition>
+    <DateComparisonExpression DataType="http://www.w3.org/2001/XMLSchema-instance:dateTime" Comparison="gt" Value="2024-01-07T09:00:00Z"/>
+    <DateComparisonExpression DataType="http://www.w3.org/2001/XMLSchema-instance:dateTime" Comparison="lt" Value="2024-01-07T17:00:00Z"/>
+  </Condition>
+  <Rule Effect="Permit">
+    <Target>
+      <AnyOf>
+        <ResourceAttributeDesignator AttributeId="Classification" DataType="http://www.w3.org/2001/XMLSchema-instance:string" MatchId="equal"/>
+        <ResourceAttributeDesignator AttributeId="Project" DataType="http://www.w3.org/2001/XMLSchema-instance:string" MatchId="equal"/>
+      </AnyOf>
+    </Target>
+  </Rule>
+</Policy>

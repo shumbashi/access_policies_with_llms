@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Policy xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17"
+        PolicyId="researchProjectAccessPolicy"
+        RuleCombiningAlgId="urn:oasis:names:tc:xacml:3.0:rule-combining-algorithm:deny-unless-permit">
+
+    <!-- Rule 1: Access is allowed if all conditions are met -->
+    <Rule RuleId="researchProjectAccessRule"
+          Effect="Permit">
+
+        <!-- Condition 1: Department is set to 'Research and Development' -->
+        <Condition>
+            <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Research and Development</AttributeValue>
+                <AttributeDesignator
+                    Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
+                    AttributeId="Department"
+                    DataType="http://www.w3.org/2001/XMLSchema#string"
+                    MustBePresent="true"/>
+            </Apply>
+        </Condition>
+
+        <!-- Condition 2: Security Clearance is set to 'Top Secret' -->
+        <Condition>
+            <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Top Secret</AttributeValue>
+                <AttributeDesignator
+                    Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
+                    AttributeId="SecurityClearance"
+                    DataType="http://www.w3.org/2001/XMLSchema#string"
+                    MustBePresent="true"/>
+            </Apply>
+        </Condition>
+
+        <!-- Condition 3: Location is set to 'Secure Facility' -->
+        <Condition>
+            <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Secure Facility</AttributeValue>
+                <AttributeDesignator
+                    Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
+                    AttributeId="Location"
+                    DataType="http://www.w3.org/2001/XMLSchema#string"
+                    MustBePresent="true"/>
+            </Apply>
+        </Condition>
+
+        <!-- Condition 4: Project Role is set to 'Lead Researcher' -->
+        <Condition>
+            <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Lead Researcher</AttributeValue>
+                <AttributeDesignator
+                    Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
+                    AttributeId="ProjectRole"
+                    DataType="http://www.w3.org/2001/XMLSchema#string"
+                    MustBePresent="true"/>
+            </Apply>
+        </Condition>
+
+        <!-- Condition 5: Work Schedule is set to 'Full-Time' -->
+        <Condition>
+            <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Full-Time</AttributeValue>
+                <AttributeDesignator
+                    Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
+                    AttributeId="WorkSchedule"
+                    DataType="http://www.w3.org/2001/XMLSchema#string"
+                    MustBePresent="true"/>
+            </Apply>
+        </Condition>
+
+    </Rule>
+
+    <!-- Rule 2: If any of the conditions are not met, deny access -->
+    <Rule RuleId="denyAccessRule" Effect="Deny"/>
+
+</Policy>

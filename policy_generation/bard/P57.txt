@@ -1,0 +1,20 @@
+// Define attributes
+subjectAttribute Department;
+subjectAttribute SecurityClearance;
+subjectAttribute Location;
+subjectAttribute ProjectRole;
+subjectAttribute WorkSchedule;
+
+// Define action
+action AccessProject(projectID);
+
+// Define policy
+// Only full-time researchers in R&D with Top Secret clearance in the Secure Facility during business hours can access highly confidential projects
+allow subject s access: AccessProject(p) if
+    s.Department = "Research and Development" and
+    s.SecurityClearance = "Top Secret" and
+    s.Location = "Secure Facility" and
+    s.ProjectRole = "Lead Researcher" and
+    s.WorkSchedule = "Full-Time" and
+    (currentTime().hour >= 8 and currentTime().hour <= 17) and
+    (currentTime().weekday >= 1 and currentTime().weekday <= 5);

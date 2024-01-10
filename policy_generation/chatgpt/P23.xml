@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Policy
+    xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17 http://docs.oasis-open.org/xacml/3.0/xacml-core-v3-schema-wd-17.xsd"
+    PolicyId="urn:example:policy:employee-access"
+    RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:deny-overrides"
+    Version="1.0">
+
+    <!-- Rule for HR users with seniority less than 3 years -->
+    <Rule
+        Effect="Permit"
+        RuleId="rule-HR-view-only">
+        <Target>
+            <Subjects>
+                <Subject>
+                    <SubjectMatch
+                        MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">HR</AttributeValue>
+                        <SubjectAttributeDesignator
+                            AttributeId="urn:oasis:names:tc:xacml:1.0:subject:subject-id"
+                            DataType="http://www.w3.org/2001/XMLSchema#string"/>
+                    </SubjectMatch>
+                </Subject>
+            </Subjects>
+            <Resources>
+                <Resource>
+                    <ResourceMatch
+                        MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">employee_records</AttributeValue>
+                        <ResourceAttributeDesignator
+                            AttributeId="urn:oasis:names:tc:xacml:1.0:resource:resource-id"
+                            DataType="http://www.w3.org/2001/XMLSchema#string"/>
+                    </ResourceMatch>
+                </Resource>
+            </Resources>
+            <Environments/>
+        </Target>
+        <Condition>
+            <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:integer-less-than">
+                <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#integer">3</AttributeValue>
+                <SubjectAttributeDesignator
+                    AttributeId="urn:example:attribute:seniority"
+                    DataType="http://www.w3.org/2001/XMLSchema#integer"/>
+            </Apply>
+        </Condition>
+    </Rule>
+
+    <!-- Rule for HR users with seniority 3 years or more -->
+    <Rule
+        Effect="Permit"
+        RuleId="rule-HR-edit-only">
+        <Target>
+            <Subjects>
+                <Subject>
+                    <SubjectMatch
+                        MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">HR</AttributeValue>
+                        <SubjectAttributeDesignator
+                            AttributeId="urn:oasis:names:tc:xacml:1.0:subject:subject-id"
+                            DataType="http://www.w3.org/2001/XMLSchema#string"/>
+                    </SubjectMatch>
+                </Subject>
+            </Subjects>
+            <Resources>
+                <Resource>
+                    <ResourceMatch
+                        MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">employee_records</AttributeValue>
+                        <ResourceAttributeDesignator
+                            AttributeId="urn:oasis:names:tc:xacml:1.0:resource:resource-id"
+                            DataType="http://www.w3.org/2001/XMLSchema#string"/>
+                    </ResourceMatch>
+                </Resource>
+            </Resources>
+            <Environments/>
+        </Target>
+        <Condition>
+            <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:integer-greater-than-or-equal">
+                <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#integer">3</AttributeValue>
+                <SubjectAttributeDesignator
+                    AttributeId="urn:example:attribute:seniority"
+                    DataType="http://www.w3.org/2001/XMLSchema#integer"/>
+            </Apply>
+        </Condition>
+    </Rule>
+
+    <!-- Rule to deny deletion for all users -->
+    <Rule
+        Effect="Deny"
+        RuleId="rule-deny-delete">
+        <Target>
+            <Actions>
+                <Action>
+                    <ActionMatch
+                        MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">delete</AttributeValue>
+                        <ActionAttributeDesignator
+                            AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id"
+                            DataType="http://www.w3.org/2001/XMLSchema#string"/>
+                    </ActionMatch>
+                </Action>
+            </Actions>
+            <Resources>
+                <Resource>
+                    <ResourceMatch
+                        MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+                        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">employee_records</AttributeValue>
+                        <ResourceAttributeDesignator
+                            AttributeId="urn:oasis:names:tc:xacml:1.0:resource:resource-id"
+                            DataType="http://www.w3.org/2001/XMLSchema#string"/>
+                    </ResourceMatch>
+                </Resource>
+            </Resources>
+            <Environments/>
+        </Target>
+    </Rule>
+</Policy>

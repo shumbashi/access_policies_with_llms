@@ -1,0 +1,13 @@
+# Define attributes
+subject department = "Finance";
+action = "approve";
+resource type = "budget request";
+resource amount <= SPECIFIED_LIMIT;  // Replace SPECIFIED_LIMIT with the actual value
+
+# Define the policy rule
+policy allow {
+    condition subject.department == department &&
+              action == action &&
+              resource.type == type &&
+              resource.amount <= amount;
+}

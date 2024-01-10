@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Policy xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        PolicyId="urn:oasis:names:tc:xacml:3.0:example:policy:executive-access"
+        RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:deny-overrides">
+  
+  <Description>Executive Access Policy</Description>
+  
+  <!-- Target specifies the conditions under which the policy applies -->
+  <Target>
+    <AnyOf>
+      <!-- Target users with Seniority Level attribute set to Executive -->
+      <AllOf>
+        <Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+          <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Executive</AttributeValue>
+          <AttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:example:attribute:seniority-level"
+                               Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
+                               DataType="http://www.w3.org/2001/XMLSchema#string"
+                               MustBePresent="true"/>
+        </Match>
+      </AllOf>
+      
+      <!-- Target permitted locations (US, Canada, France, Italy) -->
+      <AllOf>
+        <Match MatchId="urn:oasis:names:tc:xacml:1.0:function:any-of">
+          <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">US</AttributeValue>
+          <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Canada</AttributeValue>
+          <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">France</AttributeValue>
+          <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Italy</AttributeValue>
+          <AttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:example:attribute:location"
+                               Category="urn:oasis:names:tc:xacml:3.0:attribute-category:environment"
+                               DataType="http://www.w3.org/2001/XMLSchema#string"
+                               MustBePresent="true"/>
+        </Match>
+      </AllOf>
+    </AnyOf>
+  </Target>
+
+  <!-- Rules define specific conditions and actions -->
+  <Rule RuleId="permit-if-trusted-device"
+        Effect="Permit">
+    <Condition>
+      <!-- Check if the device is trusted -->
+      <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">trusted</AttributeValue>
+        <AttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:example:attribute:device-trust-level"
+                             Category="urn:oasis:names:tc:xacml:3.0:attribute-category:environment"
+                             DataType="http://www.w3.org/2001/XMLSchema#string"
+                             MustBePresent="true"/>
+      </Apply>
+    </Condition>
+  </Rule>
+
+  <!-- Deny access if none of the rules match -->
+  <Rule RuleId="deny-others" Effect="Deny"/>
+</Policy>

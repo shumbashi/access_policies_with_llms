@@ -1,0 +1,19 @@
+Policy ResearchProjectAccessControl {
+    Rule GrantAccessToLeadResearchers {
+        Target: Resource == "HighlyConfidentialResearchProjects"
+        Condition: (
+            Employee.Department == "Research and Development" AND
+            Employee.SecurityClearance == "Top Secret" AND
+            Employee.Location == "Secure Facility" AND
+            Employee.ProjectRole == "Lead Researcher" AND
+            Employee.WorkSchedule == "Full-Time" AND
+            TimeOfDay >= "09:00:00" AND TimeOfDay <= "17:00:00"
+        )
+        Action: Permit
+    }
+
+    Rule DenyAccess {
+        Target: Resource == "HighlyConfidentialResearchProjects"
+        Action: Deny
+    }
+}

@@ -1,0 +1,37 @@
+<Policy xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17" 
+         PolicyId="MarketingDocumentEditPolicy" 
+         Version="1.0">
+  <Target>
+    <AnyOf>
+      <AllOf>
+        <Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+          <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">edit</AttributeValue>
+          <AttributeDesignator MustBePresent="true" 
+                               Category="urn:oasis:names:tc:xacml:3.0:attribute-category:action" 
+                               AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" 
+                               DataType="http://www.w3.org/2001/XMLSchema#string"/>
+        </Match>
+        <Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+          <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">marketing</AttributeValue>
+          <AttributeDesignator MustBePresent="true" 
+                               Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource" 
+                               AttributeId="com:example:resource-type" 
+                               DataType="http://www.w3.org/2001/XMLSchema#string"/>
+        </Match>
+      </AllOf>
+    </AnyOf>
+  </Target>
+  <Rule Effect="Permit" RuleId="AllowMarketingEdit">
+    <Condition>
+      <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+        <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-one-and-only">
+          <AttributeDesignator MustBePresent="true" 
+                               Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject" 
+                               AttributeId="com:example:department" 
+                               DataType="http://www.w3.org/2001/XMLSchema#string"/>
+        </Apply>
+        <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Marketing</AttributeValue>
+      </Apply>
+    </Condition>
+  </Rule>
+</Policy>

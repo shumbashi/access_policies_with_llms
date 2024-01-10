@@ -1,0 +1,22 @@
+namespace = "com.example.accesscontrol"
+
+policy ExecutiveDocumentAccess {
+    apply FirstApplicable;
+
+    rule AllowAccessToExecutiveDocuments {
+        target
+            user.SeniorityLevel == "Executive"
+            and user.Location in {"US", "Canada", "France", "Italy"}
+            and user.DeviceTrusted == true;
+
+        permit;
+    }
+
+    rule DenyAccessToExecutiveDocuments {
+        target
+            user.SeniorityLevel == "Executive"
+            and (user.Location not in {"US", "Canada", "France", "Italy"} or user.DeviceTrusted == false);
+
+        deny;
+    }
+}

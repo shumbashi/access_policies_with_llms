@@ -1,0 +1,28 @@
+Policy: ConfidentialDocumentAccessPolicy
+
+Target:
+  Subjects:
+    - Employee
+      Attributes:
+        - SecurityClearanceLevel
+
+  Resources:
+    - Document
+      Attributes:
+        - ClassificationLevel
+
+Rule: AllowAccessToConfidentialDocuments
+  Target:
+    Conditions:
+      - Subject.SecurityClearanceLevel == "Confidential"
+      - Resource.ClassificationLevel <= "Confidential"
+  Action:
+    Permit
+
+Rule: DenyAccessToHigherClassifiedDocuments
+  Target:
+    Conditions:
+      - Subject.SecurityClearanceLevel == "Confidential"
+      - Resource.ClassificationLevel > "Confidential"
+  Action:
+    Deny

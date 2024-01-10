@@ -1,0 +1,12 @@
+namespace = "example.com"
+
+policy sales_department_policy {
+    rule edit_crm_records {
+        target clause {
+            user.department == "Sales" &&
+            timeOfDay >= 9:00 AM && timeOfDay <= 5:00 PM
+        }
+
+        permission = "edit"
+    }
+}

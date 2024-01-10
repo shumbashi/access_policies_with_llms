@@ -1,0 +1,27 @@
+# Define attributes
+attribute user.role {
+    values = ["employee", "manager", "hr_manager"]
+}
+attribute user.manager_id
+attribute leave_request.duration
+
+# Define rules
+policy allow_leave_request_submission {
+    target = "leave_request"
+    rule = user.role == "employee"
+    action = "submit"
+}
+
+policy allow_leave_request_approval_by_manager {
+    target = "leave_request"
+    rule = user.role == "manager" AND
+           user.id == leave_request.manager_id AND
+           leave_request.duration < 4
+    action = "approve"
+}
+
+policy allow_leave_request_approval_by_hr {
+    target = "leave_request"
+    rule = user.role == "hr_manager"
+    action = "approve"
+}

@@ -1,0 +1,18 @@
+namespace = "example.com"
+
+policy editEmployeeRecords {
+    rule allowViewing {
+        permit view
+        if user.department == "HR" && user.seniority < 3
+    }
+
+    rule allowEditing {
+        permit edit
+        if user.department == "HR" && user.seniority >= 3
+    }
+
+    rule denyDeletion {
+        deny delete
+        if user.department == "HR" && user.seniority >= 3
+    }
+}

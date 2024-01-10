@@ -1,0 +1,12 @@
+policy "RND Department Access to Source Code Repositories" {
+    apply firstApplicable
+
+    rule allowAccess {
+        target clause resource.type == "source_code_repository"
+                       resource.tags.type == "RND"
+                       action.id == "contribute"
+       condition clause subject.department == "Research and Development"
+                       current_time.hour >= 9 && current_time.hour < 17
+                       current_day.weekday in ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
+    }
+}
